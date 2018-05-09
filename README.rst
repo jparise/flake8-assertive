@@ -2,7 +2,7 @@
 Flake8 Unittest Assertion Checker
 =================================
 
-|Build Status| |PyPI Version| |Python Versions|
+|PyPI Version| |Python Versions|
 
 ``flake8-assertive`` is a `Flake8 <http://flake8.pycqa.org/>`_ extension that
 encourages using more specific `unittest`_ assertions beyond just the typical
@@ -85,8 +85,6 @@ This extension adds three new `error codes`_ (using the ``A50`` prefix):
 .. _error codes: http://flake8.pycqa.org/en/latest/user/error-codes.html
 .. _unittest: https://docs.python.org/library/unittest.html
 
-.. |Build Status| image::  https://img.shields.io/travis/jparise/flake8-assertive.svg
-   :target: https://travis-ci.org/jparise/flake8-assertive
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/flake8-assertive.svg
    :target: https://pypi.python.org/pypi/flake8-assertive
 .. |Python Versions| image:: https://img.shields.io/pypi/pyversions/flake8-assertive.svg
