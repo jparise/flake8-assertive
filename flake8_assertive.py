@@ -1,0 +1,121 @@
+"""Flake8 extension that encourages using more specific unittest assertions."""
+
+import ast
+
+__author__ = 'Jon Parise'
+__version__ = '0.1.0'
+
+
+# Python 3.4 introduced `ast.NameConstant` for `None`, `True`, and `False`.
+if hasattr(ast, 'NameConstant'):
+    def is_constant(node, obj):
+        return isinstance(node, ast.NameConstant) and node.value is obj
+else:
+    def is_constant(node, obj):
+        return isinstance(node, ast.Name) and node.id == str(obj)
+
+
+def is_function_call(node, name):
+    return (isinstance(node, ast.Call) and
+            isinstance(node.func, ast.Name) and
+            node.func.id == name)
+
+
+class Checker(object):
+    """Unittest assert method checker"""
+
+    name = 'assertive'
+    version = __version__
+
+    A500 = "prefer {func}() for '{op}' comparisons"
+    A501 = "prefer {func}() for '{op}' expressions"
+    A502 = "prefer {func}() when checking for '{obj}'"
+
+    def __init__(self, tree, filename):
+        self.tree = tree
+
+    def error(self, node, code, func, **kwargs):
+        message = code + ' ' + getattr(self, code).format(func=func, **kwargs)
+        return (node.lineno, node.col_offset, message, self)
+
+    def run(self):
+        return self.visit_tree(self.tree)
+
+    def visit_tree(self, node):
+        for error in self.visit_node(node):
+            yield error
+        for child in ast.iter_child_nodes(node):
+            for error in self.visit_tree(child):
+                yield error
+
+    def visit_node(self, node):
+        if (isinstance(node, ast.Call) and
+                isinstance(node.func, ast.Attribute) and
+                node.func.attr.startswith('assert')):
+            name = node.func.attr.lower().replace('_', '')
+            func = getattr(self, 'check_' + name, None)
+            if func is not None:
+                for error in func(node):
+                    yield error
+
+    def check_assertequal(self, node):
+        if any(arg for arg in node.args if is_constant(arg, None)):
+            yield self.error(node, 'A502', 'assertIsNone', obj='None')
+        elif any(arg for arg in node.args if is_constant(arg, True)):
+            yield self.error(node, 'A502', 'assertTrue', obj='True')
+        elif any(arg for arg in node.args if is_constant(arg, False)):
+            yield self.error(node, 'A502', 'assertFalse', obj='False')
+
+    def check_assertnotequal(self, node):
+        if any(arg for arg in node.args if is_constant(arg, None)):
+            yield self.error(node, 'A502', 'assertIsNotNone', obj='None')
+        elif any(arg for arg in node.args if is_constant(arg, True)):
+            yield self.error(node, 'A502', 'assertFalse', obj='not True')
+        elif any(arg for arg in node.args if is_constant(arg, False)):
+            yield self.error(node, 'A502', 'assertTrue', obj='not False')
+
+    def check_asserttrue(self, node):
+        if isinstance(node.args[0], ast.Compare):
+            op = node.args[0].ops[0]
+            if isinstance(op, ast.In):
+                yield self.error(node, 'A501', 'assertIn', op='in')
+            elif isinstance(op, ast.NotIn):
+                yield self.error(node, 'A501', 'assertNotIn', op='in')
+            elif isinstance(op, ast.Is):
+                yield self.error(node, 'A501', 'assertIs', op='is')
+            elif isinstance(op, ast.IsNot):
+                yield self.error(node, 'A501', 'assertIsNot', op='is')
+            elif isinstance(op, ast.Eq):
+                yield self.error(node, 'A500', 'assertEqual', op='==')
+            elif isinstance(op, ast.NotEq):
+                yield self.error(node, 'A500', 'assertNotEqual', op='!=')
+            elif isinstance(op, ast.Lt):
+                yield self.error(node, 'A500', 'assertLess', op='<')
+            elif isinstance(op, ast.LtE):
+                yield self.error(node, 'A500', 'assertLessEqual', op='<=')
+            elif isinstance(op, ast.Gt):
+                yield self.error(node, 'A500', 'assertGreater', op='>')
+            elif isinstance(op, ast.GtE):
+                yield self.error(node, 'A500', 'assertGreaterEqual', op='>=')
+        elif is_function_call(node.args[0], 'isinstance'):
+            yield self.error(
+                node, 'A501', 'assertIsInstance', op='isinstance()')
+
+    def check_assertfalse(self, node):
+        if isinstance(node.args[0], ast.Compare):
+            op = node.args[0].ops[0]
+            if isinstance(op, ast.In):
+                yield self.error(node, 'A501', 'assertNotIn', op='in')
+            elif isinstance(op, ast.NotIn):
+                yield self.error(node, 'A501', 'assertIn', op='in')
+            elif isinstance(op, ast.Is):
+                yield self.error(node, 'A501', 'assertIsNot', op='is')
+            elif isinstance(op, ast.IsNot):
+                yield self.error(node, 'A501', 'assertIs', op='is')
+            elif isinstance(op, ast.Eq):
+                yield self.error(node, 'A500', 'assertNotEqual', op='==')
+            elif isinstance(op, ast.NotEq):
+                yield self.error(node, 'A500', 'assertEqual', op='!=')
+        elif is_function_call(node.args[0], 'isinstance'):
+            yield self.error(
+                node, 'A501', 'assertNotIsInstance', op='isinstance()')
