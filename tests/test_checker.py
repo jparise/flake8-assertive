@@ -1,7 +1,6 @@
 import ast
 import re
 import unittest
-from collections import Iterator
 
 from flake8.main.application import Application
 from flake8_assertive import Checker
@@ -42,18 +41,18 @@ class TestChecks(unittest.TestCase):
         Checker.pattern = None
         Checker.snakecase = False
 
-    def check(self, code, error=None, pattern=None, filename='test.py'):
+    def check(self, code, expected=None, pattern=None, filename='test.py'):
         tree = ast.parse(code, filename)
-        result = Checker(tree, filename).run()
-        result = next(result, None) if isinstance(result, Iterator) else None
+        checker = Checker(tree, filename)
+        error = next(checker.run(), None)
 
-        if error is None:
-            return self.assertIsNone(result)
+        if expected is None:
+            return self.assertIsNone(error)
 
-        self.assertIsNotNone(result, "expected {0} error".format(error))
-        self.assertEqual(error, result[2].split(' ')[0])
+        self.assertIsNotNone(error, "expected {0} error".format(expected))
+        self.assertEqual(expected, error[2].split(' ')[0])
         if pattern is not None:
-            self.assertRegex(result[2], re.escape(pattern))
+            self.assertRegex(error[2], re.escape(pattern))
 
     def test_assertequal_none(self):
         self.check("self.assertEqual(None, 1)", "A502", "assertIsNone()")
@@ -128,9 +127,9 @@ class TestChecks(unittest.TestCase):
             "self.assertFalse(1 != 0)", "A500", "assertEqual() for '!='")
 
     def test_pattern(self):
-        Checker.pattern = 'a*.py'
-        self.check("self.assertTrue(1 == 1)", error="A500", filename='aa.py')
-        self.check("self.assertTrue(1 == 1)", error=None, filename='bb.py')
+        Checker.pattern = '[a-m]*.py'
+        self.check("self.assertTrue(1 == 1)", expected="A500", filename='a.py')
+        self.check("self.assertTrue(1 == 1)", expected=None, filename='z.py')
 
     def test_snakecase(self):
         Checker.snakecase = True

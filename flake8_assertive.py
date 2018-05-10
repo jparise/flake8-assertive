@@ -23,6 +23,12 @@ def is_function_call(node, name):
             node.func.id == name)
 
 
+def is_assert_method_call(node):
+    return (isinstance(node, ast.Call) and
+            isinstance(node.func, ast.Attribute) and
+            node.func.attr.startswith('assert'))
+
+
 class Checker(object):
     """Unittest assert method checker"""
 
@@ -67,25 +73,16 @@ class Checker(object):
     def run(self):
         # Skip files that don't match a configured pattern.
         if self.pattern and not fnmatch.fnmatch(self.filename, self.pattern):
-            return ()
-        return self.visit_tree(self.tree)
+            return
 
-    def visit_tree(self, node):
-        for error in self.visit_node(node):
-            yield error
-        for child in ast.iter_child_nodes(node):
-            for error in self.visit_tree(child):
-                yield error
-
-    def visit_node(self, node):
-        if (isinstance(node, ast.Call) and
-                isinstance(node.func, ast.Attribute) and
-                node.func.attr.startswith('assert')):
-            name = node.func.attr.lower().replace('_', '')
-            func = getattr(self, 'check_' + name, None)
-            if func is not None:
-                for error in func(node):
-                    yield error
+        # Visit all of the assert method calls in the tree.
+        for node in ast.walk(self.tree):
+            if is_assert_method_call(node):
+                name = node.func.attr.lower().replace('_', '')
+                func = getattr(self, 'check_' + name, None)
+                if func is not None:
+                    for error in func(node):
+                        yield error
 
     def check_assertequal(self, node):
         if any(arg for arg in node.args if is_constant(arg, None)):
