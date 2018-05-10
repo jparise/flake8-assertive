@@ -91,7 +91,7 @@ file`_ or as command line arguments (e.g. ``--assertive-snakecase``).
 
 - ``assertive-snakecase``: suggest snake_case assert method names
   (e.g. ``assert_true()``) instead of the standard names (e.g. ``assertTrue()``)
-- ``assertive-test-pattern``: `fnmatch()`_ pattern for identifying unittest test
+- ``assertive-test-pattern``: `fnmatch`_ pattern for identifying unittest test
   files (and all other files will be skipped)
 
 .. _fnmatch: https://docs.python.org/library/fnmatch.html
