@@ -76,12 +76,13 @@ that it has been loaded by inspecting the ``flake8 --version`` string.
 Error Codes
 -----------
 
-This extension adds three new `error codes`_ (using the ``A50`` prefix):
+This extension adds three new `error codes`__ (using the ``A50`` prefix):
 
 - ``A500``: prefer *{func}* for '*{op}*' comparisons
 - ``A501``: prefer *{func}* for '*{op}*' expressions
 - ``A502``: prefer *{func}* instead of comparing to *{obj}*
 
+.. __: http://flake8.pycqa.org/en/latest/user/error-codes.html
 
 Configuration
 -------------
@@ -97,7 +98,6 @@ file`_ or as command line arguments (e.g. ``--assertive-snakecase``).
 .. _fnmatch: https://docs.python.org/library/fnmatch.html
 .. _unittest: https://docs.python.org/library/unittest.html
 .. _config file: http://flake8.pycqa.org/en/latest/user/configuration.html
-.. _error codes: http://flake8.pycqa.org/en/latest/user/error-codes.html
 
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/flake8-assertive.svg
    :target: https://pypi.python.org/pypi/flake8-assertive
