@@ -8,6 +8,7 @@ python:
     - pypy
     - pypy3
 script:
-    - python setup.py flake8
-    - python setup.py test
+  - python setup.py flake8
+  - python setup.py test
+  - rstcheck README.rst CHANGES.rst
 cache: pip

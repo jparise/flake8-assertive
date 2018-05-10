@@ -1,1 +1,2 @@
 flake8==3.5.0
+rstcheck==3.3
