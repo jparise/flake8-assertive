@@ -1,6 +1,7 @@
 """Flake8 extension that encourages using more specific unittest assertions."""
 
 import ast
+import fnmatch
 import re
 
 __author__ = 'Jon Parise'
@@ -27,6 +28,7 @@ class Checker(object):
 
     name = 'assertive'
     version = __version__
+    pattern = None
     snakecase = False
 
     A500 = "prefer {func}() for '{op}' comparisons"
@@ -35,6 +37,7 @@ class Checker(object):
 
     def __init__(self, tree, filename):
         self.tree = tree
+        self.filename = filename
 
     @classmethod
     def add_options(cls, parser):
@@ -44,10 +47,16 @@ class Checker(object):
             action='store_true',
             default=False,
             parse_from_config=True)
+        parser.add_option(
+            '--assertive-test-pattern',
+            help="fnmatch() pattern for identifying unittest test files",
+            default=None,
+            parse_from_config=True)
 
     @classmethod
     def parse_options(cls, options):
         cls.snakecase = options.assertive_snakecase
+        cls.pattern = options.assertive_test_pattern
 
     def error(self, node, code, func, **kwargs):
         if self.snakecase:
@@ -56,6 +65,9 @@ class Checker(object):
         return (node.lineno, node.col_offset, message, self)
 
     def run(self):
+        # Skip files that don't match a configured pattern.
+        if self.pattern and not fnmatch.fnmatch(self.filename, self.pattern):
+            return ()
         return self.visit_tree(self.tree)
 
     def visit_tree(self, node):

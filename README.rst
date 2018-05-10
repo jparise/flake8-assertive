@@ -90,8 +90,11 @@ Configuration values are specified in the ``[flake8]`` section of your `config
 file`_ or as command line arguments (e.g. ``--assertive-snakecase``).
 
 - ``assertive-snakecase``: suggest snake_case assert method names
-  (``assert_true()``) instead of the standard names (``assertTrue()``)
+  (e.g. ``assert_true()``) instead of the standard names (e.g. ``assertTrue()``)
+- ``assertive-test-pattern``: `fnmatch()`_ pattern for identifying unittest test
+  files (and all other files will be skipped)
 
+.. _fnmatch: https://docs.python.org/library/fnmatch.html
 .. _unittest: https://docs.python.org/library/unittest.html
 .. _config file: http://flake8.pycqa.org/en/latest/user/configuration.html
 .. _error codes: http://flake8.pycqa.org/en/latest/user/error-codes.html

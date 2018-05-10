@@ -1,6 +1,7 @@
 import ast
 import re
 import unittest
+from collections import Iterator
 
 from flake8.main.application import Application
 from flake8_assertive import Checker
@@ -8,6 +9,7 @@ from flake8_assertive import Checker
 
 class TestOptions(unittest.TestCase):
     def tearDown(self):
+        Checker.pattern = None
         Checker.snakecase = False
 
     def configure(self, argv=None):
@@ -17,9 +19,14 @@ class TestOptions(unittest.TestCase):
 
     def test_defaults(self):
         self.configure()
+        self.assertIsNone(Checker.pattern)
         self.assertFalse(Checker.snakecase)
 
-    def test_enable_snakecase(self):
+    def test_pattern(self):
+        self.configure(['--assertive-test-pattern', 'test_*.py'])
+        self.assertEqual('test_*.py', Checker.pattern)
+
+    def test_snakecase(self):
         self.configure(['--assertive-snakecase'])
         self.assertTrue(Checker.snakecase)
 
@@ -32,12 +39,14 @@ class TestChecks(unittest.TestCase):
             cls.assertRegex = cls.assertRegexpMatches
 
     def tearDown(self):
+        Checker.pattern = None
         Checker.snakecase = False
 
-    def check(self, code, error=None, pattern=None):
-        tree = ast.parse(code, 'example.py')
-        checker = Checker(tree, 'example.py')
-        result = next(checker.run(), None)
+    def check(self, code, error=None, pattern=None, filename='test.py'):
+        tree = ast.parse(code, filename)
+        result = Checker(tree, filename).run()
+        result = next(result, None) if isinstance(result, Iterator) else None
+
         if error is None:
             return self.assertIsNone(result)
 
@@ -117,6 +126,11 @@ class TestChecks(unittest.TestCase):
             "self.assertFalse(1 == 1)", "A500", "assertNotEqual() for '=='")
         self.check(
             "self.assertFalse(1 != 0)", "A500", "assertEqual() for '!='")
+
+    def test_pattern(self):
+        Checker.pattern = 'a*.py'
+        self.check("self.assertTrue(1 == 1)", error="A500", filename='aa.py')
+        self.check("self.assertTrue(1 == 1)", error=None, filename='bb.py')
 
     def test_snakecase(self):
         Checker.snakecase = True
