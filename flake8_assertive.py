@@ -4,6 +4,7 @@ import ast
 import fnmatch
 import re
 
+__all__ = ['Checker']
 __author__ = 'Jon Parise'
 __version__ = '0.1.0'
 
