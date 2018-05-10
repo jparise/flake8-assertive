@@ -82,8 +82,19 @@ This extension adds three new `error codes`_ (using the ``A50`` prefix):
 - ``A501``: prefer *{func}* for '*{op}*' expressions
 - ``A502``: prefer *{func}* when checking '*{obj}*'
 
-.. _error codes: http://flake8.pycqa.org/en/latest/user/error-codes.html
+
+Configuration
+-------------
+
+Configuration values are specified in the ``[flake8]`` section of your `config
+file`_ or as command line arguments (e.g. ``--assertive-snakecase``).
+
+- ``assertive-snakecase``: suggest snake_case assert method names
+  (``assert_true()``) instead of the standard names (``assertTrue()``)
+
 .. _unittest: https://docs.python.org/library/unittest.html
+.. _config file: http://flake8.pycqa.org/en/latest/user/configuration.html
+.. _error codes: http://flake8.pycqa.org/en/latest/user/error-codes.html
 
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/flake8-assertive.svg
    :target: https://pypi.python.org/pypi/flake8-assertive

@@ -1,6 +1,7 @@
 """Flake8 extension that encourages using more specific unittest assertions."""
 
 import ast
+import re
 
 __author__ = 'Jon Parise'
 __version__ = '0.1.0'
@@ -26,6 +27,7 @@ class Checker(object):
 
     name = 'assertive'
     version = __version__
+    snakecase = False
 
     A500 = "prefer {func}() for '{op}' comparisons"
     A501 = "prefer {func}() for '{op}' expressions"
@@ -34,7 +36,22 @@ class Checker(object):
     def __init__(self, tree, filename):
         self.tree = tree
 
+    @classmethod
+    def add_options(cls, parser):
+        parser.add_option(
+            '--assertive-snakecase',
+            help="Use snake_case assert method names ('assert_true()')",
+            action='store_true',
+            default=False,
+            parse_from_config=True)
+
+    @classmethod
+    def parse_options(cls, options):
+        cls.snakecase = options.assertive_snakecase
+
     def error(self, node, code, func, **kwargs):
+        if self.snakecase:
+            func = re.sub(r'([A-Z])', r'_\1', func).lower()
         message = code + ' ' + getattr(self, code).format(func=func, **kwargs)
         return (node.lineno, node.col_offset, message, self)
 

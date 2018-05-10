@@ -2,24 +2,42 @@ import ast
 import re
 import unittest
 
+from flake8.main.application import Application
 from flake8_assertive import Checker
 
 
-def make_linter(code, path='example.py'):
-    tree = ast.parse(code, path)
-    return Checker(tree, path)
+class TestOptions(unittest.TestCase):
+    def tearDown(self):
+        Checker.snakecase = False
+
+    def configure(self, argv=None):
+        app = Application()
+        app.initialize(argv)
+        Checker.parse_options(app.options)
+
+    def test_defaults(self):
+        self.configure()
+        self.assertFalse(Checker.snakecase)
+
+    def test_enable_snakecase(self):
+        self.configure(['--assertive-snakecase'])
+        self.assertTrue(Checker.snakecase)
 
 
-class TestChecker(unittest.TestCase):
+class TestChecks(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Always use Python 3's `assetRegex` method name.
         if not hasattr(cls, 'assertRegex'):
             cls.assertRegex = cls.assertRegexpMatches
 
+    def tearDown(self):
+        Checker.snakecase = False
+
     def check(self, code, error=None, pattern=None):
-        linter = make_linter(code)
-        result = next(linter.run(), None)
+        tree = ast.parse(code, 'example.py')
+        checker = Checker(tree, 'example.py')
+        result = next(checker.run(), None)
         if error is None:
             return self.assertIsNone(result)
 
@@ -99,3 +117,7 @@ class TestChecker(unittest.TestCase):
             "self.assertFalse(1 == 1)", "A500", "assertNotEqual() for '=='")
         self.check(
             "self.assertFalse(1 != 0)", "A500", "assertEqual() for '!='")
+
+    def test_snakecase(self):
+        Checker.snakecase = True
+        self.check("self.assert_equal(True, a)", "A502", "assert_true()")
