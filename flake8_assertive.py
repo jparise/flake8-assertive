@@ -31,7 +31,7 @@ class Checker(object):
 
     A500 = "prefer {func}() for '{op}' comparisons"
     A501 = "prefer {func}() for '{op}' expressions"
-    A502 = "prefer {func}() when checking for '{obj}'"
+    A502 = "prefer {func}() instead of comparing to {obj}"
 
     def __init__(self, tree, filename):
         self.tree = tree

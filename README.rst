@@ -80,7 +80,7 @@ This extension adds three new `error codes`_ (using the ``A50`` prefix):
 
 - ``A500``: prefer *{func}* for '*{op}*' comparisons
 - ``A501``: prefer *{func}* for '*{op}*' expressions
-- ``A502``: prefer *{func}* when checking '*{obj}*'
+- ``A502``: prefer *{func}* instead of comparing to *{obj}*
 
 
 Configuration
