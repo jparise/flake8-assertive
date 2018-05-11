@@ -54,6 +54,13 @@ failure messages than the generic methods.
 | ``assertEqual(a, False)``         | ``assertFalse(a)``            | A502  |
 +-----------------------------------+-------------------------------+-------+
 
+Note that some suggestions are normalized forms of the original, such as when
+a double-negative is used (``assertFalse(a != b)`` → ``assertEqual(a, b)``).
+There aren't suggestions for things like ``assertFalse(a > b)``, which *might*
+be ``assertLessEqual(a, b)``, but there are also cases where that might not be
+the desired check. To that end, all suggestions should always represent the
+same logical check as the original.
+
 
 Installation
 ------------
