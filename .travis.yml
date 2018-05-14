@@ -10,5 +10,5 @@ python:
 script:
   - python setup.py flake8
   - python setup.py test
-  - rstcheck README.rst CHANGES.rst
+  - python setup.py check -m -r -s
 cache: pip
