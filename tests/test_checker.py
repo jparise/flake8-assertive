@@ -78,6 +78,12 @@ class TestChecks(unittest.TestCase):
         self.check("self.assertNotEqual(False, a)", "A502", "assertTrue()")
         self.check("self.assertNotEqual(a, False)", "A502", "assertTrue()")
 
+    def test_assertequals(self):
+        self.check("self.assertEquals(True, a)", "A502", "assertTrue()")
+
+    def test_assertnotequals(self):
+        self.check("self.assertNotEquals(True, a)", "A502", "assertFalse()")
+
     def test_asserttrue_is(self):
         self.check("self.assertTrue(True is True)", "A501", "assertIs()")
         self.check(

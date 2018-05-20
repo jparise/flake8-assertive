@@ -5,6 +5,8 @@ Next Release
 ------------------
 
 * Suggest ``assertIsNone(a)`` for ``assertTrue(a is None)``, etc.
+* Recognize ``assertEquals()`` and ``assertNotEquals()`` as aliases for
+  ``assertEqual()`` and ``assertNotEqual()``.
 
 0.9.0 (2018-05-14)
 ------------------

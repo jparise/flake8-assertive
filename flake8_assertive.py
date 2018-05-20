@@ -120,6 +120,9 @@ class Checker(object):
         elif any(arg for arg in node.args if is_constant(arg, False)):
             yield self.error(node, 'A502', 'assertTrue', obj=False)
 
+    check_assertequals = check_assertequal
+    check_assertnotequals = check_assertnotequal
+
     def check_asserttrue(self, node):
         if isinstance(node.args[0], ast.Compare):
             op = node.args[0].ops[0]
