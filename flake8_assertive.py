@@ -106,19 +106,19 @@ class Checker(object):
 
     def check_assertequal(self, node):
         if any(arg for arg in node.args if is_constant(arg, None)):
-            yield self.error(node, 'A502', 'assertIsNone', obj='None')
+            yield self.error(node, 'A502', 'assertIsNone', obj=None)
         elif any(arg for arg in node.args if is_constant(arg, True)):
-            yield self.error(node, 'A502', 'assertTrue', obj='True')
+            yield self.error(node, 'A502', 'assertTrue', obj=True)
         elif any(arg for arg in node.args if is_constant(arg, False)):
-            yield self.error(node, 'A502', 'assertFalse', obj='False')
+            yield self.error(node, 'A502', 'assertFalse', obj=False)
 
     def check_assertnotequal(self, node):
         if any(arg for arg in node.args if is_constant(arg, None)):
-            yield self.error(node, 'A502', 'assertIsNotNone', obj='None')
+            yield self.error(node, 'A502', 'assertIsNotNone', obj=None)
         elif any(arg for arg in node.args if is_constant(arg, True)):
-            yield self.error(node, 'A502', 'assertFalse', obj='not True')
+            yield self.error(node, 'A502', 'assertFalse', obj=True)
         elif any(arg for arg in node.args if is_constant(arg, False)):
-            yield self.error(node, 'A502', 'assertTrue', obj='not False')
+            yield self.error(node, 'A502', 'assertTrue', obj=False)
 
     def check_asserttrue(self, node):
         if isinstance(node.args[0], ast.Compare):
