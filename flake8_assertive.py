@@ -25,7 +25,7 @@ import fnmatch
 import re
 
 __all__ = ['Checker']
-__version__ = '0.9.0'
+__version__ = '0.9.1.dev0'
 
 
 # Python 3.4 introduced `ast.NameConstant` for `None`, `True`, and `False`.
@@ -47,6 +47,10 @@ def is_assert_method_call(node):
     return (isinstance(node, ast.Call) and
             isinstance(node.func, ast.Attribute) and
             node.func.attr.startswith('assert'))
+
+
+def has_constant_comparator(node, obj):
+    return is_constant(node.comparators[0], obj)
 
 
 class Checker(object):
@@ -128,9 +132,15 @@ class Checker(object):
             elif isinstance(op, ast.NotIn):
                 yield self.error(node, 'A501', 'assertNotIn', op='in')
             elif isinstance(op, ast.Is):
-                yield self.error(node, 'A501', 'assertIs', op='is')
+                if is_constant(node.args[0].comparators[0], None):
+                    yield self.error(node, 'A502', 'assertIsNone', obj=None)
+                else:
+                    yield self.error(node, 'A501', 'assertIs', op='is')
             elif isinstance(op, ast.IsNot):
-                yield self.error(node, 'A501', 'assertIsNot', op='is')
+                if is_constant(node.args[0].comparators[0], None):
+                    yield self.error(node, 'A502', 'assertIsNotNone', obj=None)
+                else:
+                    yield self.error(node, 'A501', 'assertIsNot', op='is')
             elif isinstance(op, ast.Eq):
                 yield self.error(node, 'A500', 'assertEqual', op='==')
             elif isinstance(op, ast.NotEq):
@@ -155,9 +165,15 @@ class Checker(object):
             elif isinstance(op, ast.NotIn):
                 yield self.error(node, 'A501', 'assertIn', op='in')
             elif isinstance(op, ast.Is):
-                yield self.error(node, 'A501', 'assertIsNot', op='is')
+                if is_constant(node.args[0].comparators[0], None):
+                    yield self.error(node, 'A502', 'assertIsNotNone', obj=None)
+                else:
+                    yield self.error(node, 'A501', 'assertIsNot', op='is')
             elif isinstance(op, ast.IsNot):
-                yield self.error(node, 'A501', 'assertIs', op='is')
+                if is_constant(node.args[0].comparators[0], None):
+                    yield self.error(node, 'A502', 'assertIsNone', obj=None)
+                else:
+                    yield self.error(node, 'A501', 'assertIs', op='is')
             elif isinstance(op, ast.Eq):
                 yield self.error(node, 'A500', 'assertNotEqual', op='==')
             elif isinstance(op, ast.NotEq):

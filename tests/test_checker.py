@@ -83,9 +83,18 @@ class TestChecks(unittest.TestCase):
         self.check(
             "self.assertTrue(True is not False)", "A501", "assertIsNot()")
 
+    def test_asserttrue_is_none(self):
+        self.check("self.assertTrue(a is None)", "A502", "assertIsNone()")
+        self.check(
+            "self.assertTrue(a is not None)", "A502", "assertIsNotNone()")
+
     def test_assertfalse_is(self):
         self.check("self.assertFalse(True is False)", "A501", "assertIsNot()")
         self.check("self.assertFalse(True is not True)", "A501", "assertIs()")
+
+    def test_assertfalse_is_none(self):
+        self.check("self.assertFalse(a is None)", "A502", "assertIsNotNone()")
+        self.check("self.assertFalse(a is not None)", "A502", "assertIsNone()")
 
     def test_asserttrue_in(self):
         self.check("self.assertTrue(1 in [1])", "A501", "assertIn()")
