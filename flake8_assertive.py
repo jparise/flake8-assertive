@@ -49,10 +49,6 @@ def is_assert_method_call(node):
             node.func.attr.startswith('assert'))
 
 
-def has_constant_comparator(node, obj):
-    return is_constant(node.comparators[0], obj)
-
-
 class Checker(object):
     """Unittest assert method checker"""
 
