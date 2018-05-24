@@ -10,5 +10,4 @@ python:
 script:
   - python setup.py flake8
   - python setup.py test
-  - python setup.py check -m -r -s
 cache: pip
