@@ -1,2 +1,6 @@
 flake8==3.5.0
+
+# List pycparser explicitly so that it's installed before any packages that
+# depend upon it. (https://github.com/eliben/pycparser/issues/251)
+pycparser==2.18
 readme_renderer==20.0
