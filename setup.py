@@ -34,7 +34,7 @@ setup(
     test_suite='tests',
     zip_safe=True,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Framework :: Flake8',
         'Intended Audience :: Developers',

@@ -1,7 +1,7 @@
 Changes
 =======
 
-Next Release
+1.0.0 (2018-06-04)
 ------------------
 
 * Suggest ``assertIsNone(a)`` for ``assertTrue(a is None)``, etc.
