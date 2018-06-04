@@ -11,7 +11,7 @@ def get_version(filename):
 
 
 version = get_version('flake8_assertive.py')
-description = open('README.rst').read() + "\n\n" + open('CHANGES.rst').read()
+description = open('README.rst').read() + "\n\n" + open('CHANGELOG.rst').read()
 github_url = 'https://github.com/jparise/flake8-assertive'
 
 setup(
