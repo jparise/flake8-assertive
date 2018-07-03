@@ -5,10 +5,10 @@ Flake8 Unittest Assertion Checker
 |PyPI Version| |Python Versions|
 
 ``flake8-assertive`` is a `Flake8 <http://flake8.pycqa.org/>`_ extension that
-encourages using more specific `unittest`_ assertions beyond just the typical
-``assertEqual(a, b)`` and ``assertTrue(x)`` methods. The alternate methods
-suggested by this extension perform more precise checks and provide better
-failure messages than the generic methods.
+encourages using richer, more specific `unittest`_ assertions beyond just the
+typical ``assertEqual(a, b)`` and ``assertTrue(x)`` methods. The suggested
+methods perform more precise checks and provide better failure messages than
+the generic methods.
 
 +-----------------------------------+-------------------------------+-------+
 | Original                          | Suggestion                    | Code  |
