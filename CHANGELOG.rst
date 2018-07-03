@@ -1,6 +1,12 @@
 Changes
 =======
 
+1.0.1 (2018-07-03)
+------------------
+
+* Don't make suggestions for assertions containing multiple comparison
+  operations (e.g. ``assertTrue(a == b == c)``).
+
 1.0.0 (2018-06-04)
 ------------------
 
