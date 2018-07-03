@@ -141,6 +141,10 @@ class TestChecks(unittest.TestCase):
         self.check(
             "self.assertFalse(1 != 0)", "A500", "assertEqual() for '!='")
 
+    def test_multiple_comparison_ops(self):
+        self.check("self.assertTrue(1 == 1 == 1)", expected=None)
+        self.check("self.assertFalse(1 == 1 == 1)", expected=None)
+
     def test_pattern(self):
         Checker.pattern = '[a-m]*.py'
         self.check("self.assertTrue(1 == 1)", expected="A500", filename='a.py')

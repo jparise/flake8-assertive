@@ -124,7 +124,8 @@ class Checker(object):
     check_assertnotequals = check_assertnotequal
 
     def check_asserttrue(self, node):
-        if isinstance(node.args[0], ast.Compare):
+        if (isinstance(node.args[0], ast.Compare) and
+                len(node.args[0].ops) == 1):
             op = node.args[0].ops[0]
             if isinstance(op, ast.In):
                 yield self.error(node, 'A501', 'assertIn', op='in')
@@ -157,7 +158,8 @@ class Checker(object):
                 node, 'A501', 'assertIsInstance', op='isinstance()')
 
     def check_assertfalse(self, node):
-        if isinstance(node.args[0], ast.Compare):
+        if (isinstance(node.args[0], ast.Compare) and
+                len(node.args[0].ops) == 1):
             op = node.args[0].ops[0]
             if isinstance(op, ast.In):
                 yield self.error(node, 'A501', 'assertNotIn', op='in')
