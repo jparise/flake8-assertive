@@ -112,6 +112,35 @@ file`_ or as command line arguments (e.g. ``--assertive-snakecase``).
 .. _unittest: https://docs.python.org/library/unittest.html
 .. _config file: http://flake8.pycqa.org/en/latest/user/configuration.html
 
+Caveats
+-------
+
+There are some specific cases when the suggestion might not match the intent
+of the original.
+
+Testing the equality operator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``assertEqual()`` won't use the ``==`` operator if the comparison has been
+delegated to a `type-specific equalilty function`__. By default, this is the
+case for strings, sequences, lists, tuples, sets, and dicts.
+
+.. __: https://docs.python.org/3/library/unittest.html#unittest.TestCase.addTypeEqualityFunc
+
+If your intent is to specifically test the ``==`` operator, consider writing
+the assertion like this instead:
+
+.. code-block:: python
+
+    assertIs(a == b, True)
+
+This approach has the benefit of verifying that the type's ``__eq__``
+implementation returns a boolean value. Unfortunately, it also has the
+downside of reporting the result of ``a == b`` on failure instead of the
+values of ``a`` and ``b``.
+
+Suggested by: `Serhiy Storchaka <https://twitter.com/SerhiyStorchaka>`_
+
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/flake8-assertive.svg
    :target: https://pypi.python.org/pypi/flake8-assertive
 .. |Python Versions| image:: https://img.shields.io/pypi/pyversions/flake8-assertive.svg
