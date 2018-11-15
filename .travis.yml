@@ -16,3 +16,6 @@ script:
   - python setup.py flake8
   - python setup.py test
 cache: pip
+branches:
+  only:
+    - "master"
