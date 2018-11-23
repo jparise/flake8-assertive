@@ -6,9 +6,8 @@ python:
     - 3.5
     - 3.6
     - 3.7
-    - nightly
-    - pypy
-    - pypy3
+    - pypy2.7
+    - pypy3.5
 script:
   - python setup.py flake8
   - python setup.py test
