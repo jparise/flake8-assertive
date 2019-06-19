@@ -1,6 +1,12 @@
 Changes
 =======
 
+1.0.2 (2019-06-19)
+------------------
+
+* Suggest ``assertAlmostEqual(a, b, x)`` for ``assertEqual(a, round(b, x))``
+  and ``assertAlmostEqual(a, round(b, x))`` (error code A503).
+  
 1.0.1 (2018-07-03)
 ------------------
 
