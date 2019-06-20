@@ -45,6 +45,10 @@ the generic methods.
 +--------------------------------------+-------------------------------+-------+
 | ``assertFalse(isinstance(a, b))``    | ``assertNotIsInstance(a, b)`` | A501  |
 +--------------------------------------+-------------------------------+-------+
+| ``assertEqual(a, round(b, x))``      | ``assertAlmostEqual(a, b, x)``| A501  |
++--------------------------------------+-------------------------------+-------+
+| ``assertAlmostEqual(a, round(b, x))``| ``assertAlmostEqual(a, b, x)``| A501  |
++--------------------------------------+-------------------------------+-------+
 | ``assertEqual(a, None)``             | ``assertIsNone(a)``           | A502  |
 +--------------------------------------+-------------------------------+-------+
 | ``assertNotEqual(a, None)``          | ``assertIsNotNone(a)``        | A502  |
@@ -60,10 +64,6 @@ the generic methods.
 | ``assertEqual(a, True)``             | ``assertTrue(a)``             | A502  |
 +--------------------------------------+-------------------------------+-------+
 | ``assertEqual(a, False)``            | ``assertFalse(a)``            | A502  |
-+--------------------------------------+-------------------------------+-------+
-| ``assertEqual(a, round(b, x))``      | ``assertAlmostEqual(a, b, x)``| A503  |
-+--------------------------------------+-------------------------------+-------+
-| ``assertAlmostEqual(a, round(b, x))``| ``assertAlmostEqual(a, b, x)``| A503  |
 +--------------------------------------+-------------------------------+-------+
 
 Note that some suggestions are normalized forms of the original, such as when
@@ -93,12 +93,11 @@ that it has been loaded by inspecting the ``flake8 --version`` string.
 Error Codes
 -----------
 
-This extension adds four new `error codes`__ (using the ``A50`` prefix):
+This extension adds three new `error codes`__ (using the ``A50`` prefix):
 
 - ``A500``: prefer *{func}* for '*{op}*' comparisons
 - ``A501``: prefer *{func}* for '*{op}*' expressions
 - ``A502``: prefer *{func}* instead of comparing to *{obj}*
-- ``A503``: prefer ``assertAlmostEqual()'s rounding instead of using ``round())``
 
 .. __: http://flake8.pycqa.org/en/latest/user/error-codes.html
 
