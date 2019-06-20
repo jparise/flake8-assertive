@@ -67,10 +67,10 @@ class TestChecks(unittest.TestCase):
         self.check("self.assertEqual(a, False)", "A502", "assertFalse()")
 
     def test_assertequal_round(self):
-        self.check("self.assertEqual(1.01, round(a, 2))", "A503",
-                   "assertAlmostEqual()'s")
-        self.check("self.assertEqual(round(a, 2), 1.01)", "A503",
-                       "assertAlmostEqual()'s")
+        self.check("self.assertEqual(1.01, round(a, 2))", "A501",
+                   "built-in rounding of assertAlmostEqual()")
+        self.check("self.assertEqual(round(a, 2), 1.01)", "A501",
+                   "built-in rounding of assertAlmostEqual()")
 
     def test_assertnotequal_none(self):
         self.check("self.assertNotEqual(None, 1)", "A502", "assertIsNotNone()")
@@ -91,14 +91,14 @@ class TestChecks(unittest.TestCase):
         self.check("self.assertNotEquals(True, a)", "A502", "assertFalse()")
 
     def test_assertalmostequal_round(self):
-            self.check("self.assertEqual(1.01, round(a, 2))", "A503",
-                       "assertAlmostEqual()'s")
-            self.check("self.assertEqual(round(a, 2), 1.01)", "A503",
-                           "assertAlmostEqual()'s")
+            self.check("self.assertEqual(1.01, round(a, 2))", "A501",
+                       "built-in rounding of assertAlmostEqual()")
+            self.check("self.assertEqual(round(a, 2), 1.01)", "A501",
+                       "built-in rounding of assertAlmostEqual()")
 
     def test_assertalmostequals(self):
-                self.check("self.assertEqual(1.01, round(a, 2))", "A503",
-                           "assertAlmostEqual()'s")
+                self.check("self.assertEqual(1.01, round(a, 2))", "A501",
+                           "built-in rounding of assertAlmostEqual()")
 
     def test_asserttrue_is(self):
         self.check("self.assertTrue(True is True)", "A501", "assertIs()")
