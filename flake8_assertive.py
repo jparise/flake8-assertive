@@ -60,7 +60,6 @@ class Checker(object):
     A500 = "prefer {func}() for '{op}' comparisons"
     A501 = "prefer {func}() for '{op}' expressions"
     A502 = "prefer {func}() instead of comparing to {obj}"
-    A503 = "prefer assertAlmostEqual()'s rounding instead of using round()"
 
     def __init__(self, tree, filename):
         self.tree = tree
@@ -113,11 +112,15 @@ class Checker(object):
         elif any(arg for arg in node.args if is_constant(arg, False)):
             yield self.error(node, 'A502', 'assertFalse', obj=False)
         elif any(arg for arg in node.args if is_function_call(arg, 'round')):
-            yield self.error(node, 'A503', None)
+            yield self.error(node, 'A501',
+                             'built-in rounding of assertAlmostEqual',
+                             op='round')
 
     def check_assertalmostequal(self, node):
         if any(arg for arg in node.args if is_function_call(arg, 'round')):
-            yield self.error(node, 'A503', None)
+            yield self.error(node, 'A501',
+                             'built-in rounding of assertAlmostEqual',
+                             op='round')
 
     def check_assertnotequal(self, node):
         if any(arg for arg in node.args if is_constant(arg, None)):
