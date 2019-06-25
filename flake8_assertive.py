@@ -129,10 +129,21 @@ class Checker(object):
             yield self.error(node, 'A502', 'assertFalse', obj=True)
         elif any(arg for arg in node.args if is_constant(arg, False)):
             yield self.error(node, 'A502', 'assertTrue', obj=False)
+        elif any(arg for arg in node.args if is_function_call(arg, 'round')):
+            yield self.error(node, 'A501',
+                             'built-in rounding of assertNotAlmostEqual',
+                             op='round')
+
+    def check_assertnotalmostequal(self, node):
+        if any(arg for arg in node.args if is_function_call(arg, 'round')):
+            yield self.error(node, 'A501',
+                             'built-in rounding of assertNotAlmostEqual',
+                             op='round')
 
     check_assertequals = check_assertequal
-    check_assertalmostequals = check_assertalmostequal
     check_assertnotequals = check_assertnotequal
+    check_assertalmostequals = check_assertalmostequal
+    check_assertnotalmostequals = check_assertnotalmostequal
 
     def check_asserttrue(self, node):
         if (isinstance(node.args[0], ast.Compare) and

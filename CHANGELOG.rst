@@ -5,7 +5,10 @@ Changes
 ------------------
 
 * Suggest ``assertAlmostEqual(a, b, x)`` for ``round()`` expressions like in
- ``assertEqual(a, round(b, x))`` and ``assertAlmostEqual(a, round(b, x))``.
+  ``assertEqual(a, round(b, x))`` and ``assertAlmostEqual(a, round(b, x))``
+  (and similar for ``assertNotEqual()`` and ``assertNotAlmostEqual()``.
+* Recognize ``assertAmostEquals()`` and ``assertNotAlmostEquals()`` as aliases
+  for ``assertAlmostEqual()`` and ``assertNotAlmostEqual()``.
 
 1.0.1 (2018-07-03)
 ------------------

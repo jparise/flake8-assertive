@@ -84,6 +84,12 @@ class TestChecks(unittest.TestCase):
         self.check("self.assertNotEqual(False, a)", "A502", "assertTrue()")
         self.check("self.assertNotEqual(a, False)", "A502", "assertTrue()")
 
+    def test_assertnotequal_round(self):
+        self.check("self.assertNotEqual(1.01, round(a, 2))", "A501",
+                   "built-in rounding of assertNotAlmostEqual()")
+        self.check("self.assertNotEqual(round(a, 2), 1.01)", "A501",
+                   "built-in rounding of assertNotAlmostEqual()")
+
     def test_assertequals(self):
         self.check("self.assertEquals(True, a)", "A502", "assertTrue()")
 
@@ -91,14 +97,24 @@ class TestChecks(unittest.TestCase):
         self.check("self.assertNotEquals(True, a)", "A502", "assertFalse()")
 
     def test_assertalmostequal_round(self):
-            self.check("self.assertEqual(1.01, round(a, 2))", "A501",
-                       "built-in rounding of assertAlmostEqual()")
-            self.check("self.assertEqual(round(a, 2), 1.01)", "A501",
-                       "built-in rounding of assertAlmostEqual()")
+        self.check("self.assertAlmostEqual(1.01, round(a, 2))", "A501",
+                   "built-in rounding of assertAlmostEqual()")
+        self.check("self.assertAlmostEqual(round(a, 2), 1.01)", "A501",
+                   "built-in rounding of assertAlmostEqual()")
 
     def test_assertalmostequals(self):
-                self.check("self.assertEqual(1.01, round(a, 2))", "A501",
-                           "built-in rounding of assertAlmostEqual()")
+        self.check("self.assertEquals(1.01, round(a, 2))", "A501",
+                   "built-in rounding of assertAlmostEqual()")
+
+    def test_assertnotalmostequal_round(self):
+        self.check("self.assertNotAlmostEqual(1.01, round(a, 2))", "A501",
+                   "built-in rounding of assertNotAlmostEqual()")
+        self.check("self.assertNotAlmostEqual(round(a, 2), 1.01)", "A501",
+                   "built-in rounding of assertNotAlmostEqual()")
+
+    def test_assertnotalmostequals(self):
+        self.check("self.assertNotAlmostEquals(1.01, round(a, 2))", "A501",
+                   "built-in rounding of assertNotAlmostEqual()")
 
     def test_asserttrue_is(self):
         self.check("self.assertTrue(True is True)", "A501", "assertIs()")
