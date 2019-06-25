@@ -1,6 +1,12 @@
 Changes
 =======
 
+1.0.2 (2019-06-20)
+------------------
+
+* Suggest ``assertAlmostEqual(a, b, x)`` for ``round()`` expressions like in
+ ``assertEqual(a, round(b, x))`` and ``assertAlmostEqual(a, round(b, x))``.
+
 1.0.1 (2018-07-03)
 ------------------
 
