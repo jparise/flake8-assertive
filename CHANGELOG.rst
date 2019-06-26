@@ -1,7 +1,7 @@
 Changes
 =======
 
-1.0.2 (2019-06-20)
+1.1.0 (2019-06-26)
 ------------------
 
 * Suggest ``assertAlmostEqual(a, b, x)`` for ``round()`` expressions like in
@@ -9,6 +9,7 @@ Changes
   (and similar for ``assertNotEqual()`` and ``assertNotAlmostEqual()``.
 * Recognize ``assertAmostEquals()`` and ``assertNotAlmostEquals()`` as aliases
   for ``assertAlmostEqual()`` and ``assertNotAlmostEqual()``.
+* Drop Python 3.4 as a supported version since it has been officially retired.
 
 1.0.1 (2018-07-03)
 ------------------
