@@ -1,6 +1,12 @@
 Changes
 =======
 
+1.2.0 (2019-12-05)
+------------------
+
+* Suggest the preferred names for deprecated methods, such as
+  ``assertEqual()`` instead of ``assertEquals()``.
+
 1.1.0 (2019-06-26)
 ------------------
 
