@@ -25,7 +25,7 @@ import fnmatch
 import re
 
 __all__ = ['Checker']
-__version__ = '1.1.0'
+__version__ = '1.2.0'
 
 
 # Python 3.4 introduced `ast.NameConstant` for `None`, `True`, and `False`.
@@ -49,6 +49,21 @@ def is_assert_method_call(node):
             node.func.attr.startswith('assert'))
 
 
+def wrap_deprecated(func, name):
+    """Return a check function for a deprecated assert method call.
+
+    If the `assertive-deprecated` option has been enabled and the wrapped
+    check function doesn't yield any errors of its own, this function will
+    yield an A503 error that includes the new name of deprecated method.
+    """
+    def wrapper(self, node):
+        for error in func(self, node):
+            yield error
+        else:
+            yield self.error(node, 'A503', func=name, name=node.func.attr)
+    return wrapper
+
+
 class Checker(object):
     """Unittest assert method checker"""
 
@@ -60,6 +75,7 @@ class Checker(object):
     A500 = "prefer {func}() for '{op}' comparisons"
     A501 = "prefer {func}() for '{op}' expressions"
     A502 = "prefer {func}() instead of comparing to {obj}"
+    A503 = "use {func}() instead of the deprecated {name}()"
 
     def __init__(self, tree, filename):
         self.tree = tree
@@ -140,11 +156,6 @@ class Checker(object):
                              'built-in rounding of assertNotAlmostEqual',
                              op='round')
 
-    check_assertequals = check_assertequal
-    check_assertnotequals = check_assertnotequal
-    check_assertalmostequals = check_assertalmostequal
-    check_assertnotalmostequals = check_assertnotalmostequal
-
     def check_asserttrue(self, node):
         if (isinstance(node.args[0], ast.Compare) and
                 len(node.args[0].ops) == 1):
@@ -204,3 +215,19 @@ class Checker(object):
         elif is_function_call(node.args[0], 'isinstance'):
             yield self.error(
                 node, 'A501', 'assertNotIsInstance', op='isinstance()')
+
+    check_assertequals = wrap_deprecated(
+        check_assertequal,
+        'assertEqual')
+
+    check_assertnotequals = wrap_deprecated(
+        check_assertnotequal,
+        'assertNotEqual')
+
+    check_assertalmostequals = wrap_deprecated(
+        check_assertalmostequal,
+        'assertAlmostEqual')
+
+    check_assertnotalmostequals = wrap_deprecated(
+        check_assertnotalmostequal,
+        'assertNotAlmostEqual')

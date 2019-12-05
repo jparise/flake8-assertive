@@ -69,6 +69,14 @@ the generic methods.
 +------------------------------------------+-----------------------------------+------+
 | ``assertEqual(a, False)``                | ``assertFalse(a)``                | A502 |
 +------------------------------------------+-----------------------------------+------+
+| ``assertEquals(a, b)``                   | ``assertEqual(a, b)``             | A503 |
++------------------------------------------+-----------------------------------+------+
+| ``assertNotEquals(a, b)``                | ``assertNotEqual(a, b)``          | A503 |
++------------------------------------------+-----------------------------------+------+
+| ``assertAlmostEquals(a, b, x)``          | ``assertAlmostEqual(a, b, x)``    | A503 |
++------------------------------------------+-----------------------------------+------+
+| ``assertNotAlmostEquals(a, b, x)``       | ``assertNotAlmostEqual(a, b, x)`` | A503 |
++------------------------------------------+-----------------------------------+------+
 
 Note that some suggestions are normalized forms of the original, such as when
 a double-negative is used (``assertFalse(a != b)`` → ``assertEqual(a, b)``).
@@ -91,7 +99,7 @@ that it has been loaded by inspecting the ``flake8 --version`` string.
 .. code-block:: sh
 
     $ flake8 --version
-    3.7.7 (assertive: 1.1.0, ...) CPython 2.7.16 on Darwin
+    3.7.9 (assertive: 1.2.0, ...) CPython 2.7.17 on Darwin
 
 
 Error Codes
@@ -102,6 +110,7 @@ This extension adds three new `error codes`__ (using the ``A50`` prefix):
 - ``A500``: prefer *{func}* for '*{op}*' comparisons
 - ``A501``: prefer *{func}* for '*{op}*' expressions
 - ``A502``: prefer *{func}* instead of comparing to *{obj}*
+- ``A503``: use *{func}* instead of the deprecated *{name}*
 
 .. __: http://flake8.pycqa.org/en/latest/user/error-codes.html
 

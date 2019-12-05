@@ -160,3 +160,7 @@ class TestChecks(unittest.TestCase):
     def test_snakecase(self):
         Checker.snakecase = True
         self.check("self.assert_equal(True, a)", "A502", "assert_true()")
+
+    def test_deprecated(self):
+        self.check("self.assertEquals(True, a)", "A502", "assertTrue()")
+        self.check("self.assertEquals(a, b)", "A503", "assertEqual()")
