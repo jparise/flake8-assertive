@@ -2,32 +2,7 @@ import ast
 import re
 import unittest
 
-from flake8.main.application import Application
 from flake8_assertive import Checker
-
-
-class TestOptions(unittest.TestCase):
-    def tearDown(self):
-        Checker.pattern = None
-        Checker.snakecase = False
-
-    def configure(self, argv=None):
-        app = Application()
-        app.initialize(argv)
-        Checker.parse_options(app.options)
-
-    def test_defaults(self):
-        self.configure()
-        self.assertIsNone(Checker.pattern)
-        self.assertFalse(Checker.snakecase)
-
-    def test_pattern(self):
-        self.configure(['--assertive-test-pattern', 'test_*.py'])
-        self.assertEqual('test_*.py', Checker.pattern)
-
-    def test_snakecase(self):
-        self.configure(['--assertive-snakecase'])
-        self.assertTrue(Checker.snakecase)
 
 
 class TestChecks(unittest.TestCase):
