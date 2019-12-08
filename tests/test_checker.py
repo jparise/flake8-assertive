@@ -148,6 +148,15 @@ class TestChecks(unittest.TestCase):
         self.check(
             "self.assertFalse(1 != 0)", "A500", "assertEqual() for '!='")
 
+    def test_keyword_args(self):
+        self.check("self.assertTrue(expr=1)", expected=None)
+        self.check("self.assertTrue(expr=(True is True))", expected="A501")
+        self.check("self.assertEqual(first=1, second=1)", expected=None)
+        self.check("self.assertEqual(first=1, second=None)", "A502")
+        self.check("self.assertEqual(first=None, second=1)", "A502")
+        self.check("self.assertEqual(1, second=1)", expected=None)
+        self.check("self.assertEqual(None, second=1)", "A502")
+
     def test_multiple_comparison_ops(self):
         self.check("self.assertTrue(1 == 1 == 1)", expected=None)
         self.check("self.assertFalse(1 == 1 == 1)", expected=None)

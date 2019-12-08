@@ -49,6 +49,13 @@ def is_assert_method_call(node):
             node.func.attr.startswith('assert'))
 
 
+def args(node):
+    for arg in node.args:
+        yield arg
+    for arg in node.keywords:
+        yield arg.value
+
+
 def wrap_deprecated(func, name):
     """Return a check function for a deprecated assert method call.
 
@@ -121,56 +128,56 @@ class Checker(object):
                         yield error
 
     def check_assertequal(self, node):
-        if any(arg for arg in node.args if is_constant(arg, None)):
+        if any(arg for arg in args(node) if is_constant(arg, None)):
             yield self.error(node, 'A502', 'assertIsNone', obj=None)
-        elif any(arg for arg in node.args if is_constant(arg, True)):
+        elif any(arg for arg in args(node) if is_constant(arg, True)):
             yield self.error(node, 'A502', 'assertTrue', obj=True)
-        elif any(arg for arg in node.args if is_constant(arg, False)):
+        elif any(arg for arg in args(node) if is_constant(arg, False)):
             yield self.error(node, 'A502', 'assertFalse', obj=False)
-        elif any(arg for arg in node.args if is_function_call(arg, 'round')):
+        elif any(arg for arg in args(node) if is_function_call(arg, 'round')):
             yield self.error(node, 'A501',
                              'built-in rounding of assertAlmostEqual',
                              op='round')
 
     def check_assertalmostequal(self, node):
-        if any(arg for arg in node.args if is_function_call(arg, 'round')):
+        if any(arg for arg in args(node) if is_function_call(arg, 'round')):
             yield self.error(node, 'A501',
                              'built-in rounding of assertAlmostEqual',
                              op='round')
 
     def check_assertnotequal(self, node):
-        if any(arg for arg in node.args if is_constant(arg, None)):
+        if any(arg for arg in args(node) if is_constant(arg, None)):
             yield self.error(node, 'A502', 'assertIsNotNone', obj=None)
-        elif any(arg for arg in node.args if is_constant(arg, True)):
+        elif any(arg for arg in args(node) if is_constant(arg, True)):
             yield self.error(node, 'A502', 'assertFalse', obj=True)
-        elif any(arg for arg in node.args if is_constant(arg, False)):
+        elif any(arg for arg in args(node) if is_constant(arg, False)):
             yield self.error(node, 'A502', 'assertTrue', obj=False)
-        elif any(arg for arg in node.args if is_function_call(arg, 'round')):
+        elif any(arg for arg in args(node) if is_function_call(arg, 'round')):
             yield self.error(node, 'A501',
                              'built-in rounding of assertNotAlmostEqual',
                              op='round')
 
     def check_assertnotalmostequal(self, node):
-        if any(arg for arg in node.args if is_function_call(arg, 'round')):
+        if any(arg for arg in args(node) if is_function_call(arg, 'round')):
             yield self.error(node, 'A501',
                              'built-in rounding of assertNotAlmostEqual',
                              op='round')
 
     def check_asserttrue(self, node):
-        if (isinstance(node.args[0], ast.Compare) and
-                len(node.args[0].ops) == 1):
-            op = node.args[0].ops[0]
+        arg = next(args(node), None)
+        if arg and isinstance(arg, ast.Compare) and len(arg.ops) == 1:
+            op = arg.ops[0]
             if isinstance(op, ast.In):
                 yield self.error(node, 'A501', 'assertIn', op='in')
             elif isinstance(op, ast.NotIn):
                 yield self.error(node, 'A501', 'assertNotIn', op='in')
             elif isinstance(op, ast.Is):
-                if is_constant(node.args[0].comparators[0], None):
+                if is_constant(arg.comparators[0], None):
                     yield self.error(node, 'A502', 'assertIsNone', obj=None)
                 else:
                     yield self.error(node, 'A501', 'assertIs', op='is')
             elif isinstance(op, ast.IsNot):
-                if is_constant(node.args[0].comparators[0], None):
+                if is_constant(arg.comparators[0], None):
                     yield self.error(node, 'A502', 'assertIsNotNone', obj=None)
                 else:
                     yield self.error(node, 'A501', 'assertIsNot', op='is')
@@ -186,25 +193,25 @@ class Checker(object):
                 yield self.error(node, 'A500', 'assertGreater', op='>')
             elif isinstance(op, ast.GtE):
                 yield self.error(node, 'A500', 'assertGreaterEqual', op='>=')
-        elif is_function_call(node.args[0], 'isinstance'):
+        elif is_function_call(arg, 'isinstance'):
             yield self.error(
                 node, 'A501', 'assertIsInstance', op='isinstance()')
 
     def check_assertfalse(self, node):
-        if (isinstance(node.args[0], ast.Compare) and
-                len(node.args[0].ops) == 1):
-            op = node.args[0].ops[0]
+        arg = next(args(node), None)
+        if arg and isinstance(arg, ast.Compare) and len(arg.ops) == 1:
+            op = arg.ops[0]
             if isinstance(op, ast.In):
                 yield self.error(node, 'A501', 'assertNotIn', op='in')
             elif isinstance(op, ast.NotIn):
                 yield self.error(node, 'A501', 'assertIn', op='in')
             elif isinstance(op, ast.Is):
-                if is_constant(node.args[0].comparators[0], None):
+                if is_constant(arg.comparators[0], None):
                     yield self.error(node, 'A502', 'assertIsNotNone', obj=None)
                 else:
                     yield self.error(node, 'A501', 'assertIsNot', op='is')
             elif isinstance(op, ast.IsNot):
-                if is_constant(node.args[0].comparators[0], None):
+                if is_constant(arg.comparators[0], None):
                     yield self.error(node, 'A502', 'assertIsNone', obj=None)
                 else:
                     yield self.error(node, 'A501', 'assertIs', op='is')
@@ -212,7 +219,7 @@ class Checker(object):
                 yield self.error(node, 'A500', 'assertNotEqual', op='==')
             elif isinstance(op, ast.NotEq):
                 yield self.error(node, 'A500', 'assertEqual', op='!=')
-        elif is_function_call(node.args[0], 'isinstance'):
+        elif is_function_call(arg, 'isinstance'):
             yield self.error(
                 node, 'A501', 'assertNotIsInstance', op='isinstance()')
 
