@@ -1,4 +1,4 @@
-# Copyright (c) 2018 Jon Parise <jon@indelible.org>
+# Copyright (c) 2018-2019 Jon Parise <jon@indelible.org>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ import fnmatch
 import re
 
 __all__ = ['Checker']
-__version__ = '1.2.0'
+__version__ = '1.2.1'
 
 
 # Python 3.4 introduced `ast.NameConstant` for `None`, `True`, and `False`.

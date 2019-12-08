@@ -1,6 +1,11 @@
 Changes
 =======
 
+1.2.1 (2019-12-08)
+------------------
+
+* Support keyword arguments in assert method calls.
+
 1.2.0 (2019-12-05)
 ------------------
 
