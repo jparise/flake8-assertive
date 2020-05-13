@@ -61,7 +61,7 @@ def wrap_deprecated(func, name):
 
     If the `assertive-deprecated` option has been enabled and the wrapped
     check function doesn't yield any errors of its own, this function will
-    yield an A503 error that includes the new name of deprecated method.
+    yield an A503 error that includes the new name of the deprecated method.
     """
     def wrapper(self, node):
         for error in func(self, node):
