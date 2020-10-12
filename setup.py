@@ -30,8 +30,6 @@ setup(
         'flake8.extension': ['A50 = flake8_assertive:Checker'],
     },
     install_requires=['flake8'],
-    tests_require=['flake8>=3.0.0'],
-    test_suite='tests',
     zip_safe=True,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
