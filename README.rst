@@ -4,7 +4,7 @@ Flake8 Unittest Assertion Checker
 
 |PyPI Version| |Python Versions|
 
-``flake8-assertive`` is a `Flake8 <http://flake8.pycqa.org/>`_ extension that
+``flake8-assertive`` is a `Flake8 <https://flake8.pycqa.org/>`_ extension that
 encourages using richer, more specific `unittest`_ assertions beyond just the
 typical ``assertEqual(a, b)`` and ``assertTrue(x)`` methods. The suggested
 methods perform more precise checks and provide better failure messages than
@@ -112,7 +112,7 @@ This extension adds three new `error codes`__ (using the ``A50`` prefix):
 - ``A502``: prefer *{func}* instead of comparing to *{obj}*
 - ``A503``: use *{func}* instead of the deprecated *{name}*
 
-.. __: http://flake8.pycqa.org/en/latest/user/error-codes.html
+.. __: https://flake8.pycqa.org/en/latest/user/error-codes.html
 
 Configuration
 -------------
@@ -127,7 +127,7 @@ file`_ or as command line arguments (e.g. ``--assertive-snakecase``).
 
 .. _fnmatch: https://docs.python.org/library/fnmatch.html
 .. _unittest: https://docs.python.org/library/unittest.html
-.. _config file: http://flake8.pycqa.org/en/latest/user/configuration.html
+.. _config file: https://flake8.pycqa.org/en/latest/user/configuration.html
 
 Caveats
 -------
