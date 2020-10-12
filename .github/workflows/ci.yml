@@ -28,5 +28,5 @@ jobs:
     - name: Tests
       run: |
         python setup.py check --restructuredtext
-        python setup.py flake8
+        flake8
         python setup.py test
