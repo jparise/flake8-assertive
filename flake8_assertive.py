@@ -25,7 +25,7 @@ import fnmatch
 import re
 
 __all__ = ['Checker']
-__version__ = '1.3.0'
+__version__ = '2.0.0'
 
 
 # Python 3.4 introduced `ast.NameConstant` for `None`, `True`, and `False`.
