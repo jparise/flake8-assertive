@@ -105,7 +105,7 @@ that it has been loaded by inspecting the ``flake8 --version`` string.
 .. code-block:: sh
 
     $ flake8 --version
-    4.0.1 (assertive: 2.0.0, ...) CPython 3.8.6 on Darwin
+    4.0.1 (assertive: 2.1.0, ...) CPython 3.9.10 on Darwin
 
 
 Error Codes

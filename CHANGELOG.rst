@@ -1,6 +1,13 @@
 Changes
 =======
 
+2.1.0 (2022-03-15)
+------------------
+
+* Suggest using an explicit `msg` keyword argument with ``assertTrue()`` and
+  ``assertFalse()`` to avoid accidentally misuse. This is controlled by a new
+  error code: ``A504``
+
 2.0.0 (2021-12-30)
 ------------------
 
