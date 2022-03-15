@@ -79,7 +79,7 @@ the generic methods.
 +------------------------------------------+-----------------------------------+------+
 | ``assertNotAlmostEquals(a, b, x)``       | ``assertNotAlmostEqual(a, b, x)`` | A503 |
 +------------------------------------------+-----------------------------------+------+
-| ``assertTrue(a, b)``                     | ``assertTrue(a, msg=b)``          | A503 |
+| ``assertTrue(a, b)``                     | ``assertTrue(a, msg=b)``          | A504 |
 +------------------------------------------+-----------------------------------+------+
 
 Note that some suggestions are normalized forms of the original, such as when
