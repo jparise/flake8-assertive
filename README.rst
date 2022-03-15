@@ -79,6 +79,8 @@ the generic methods.
 +------------------------------------------+-----------------------------------+------+
 | ``assertNotAlmostEquals(a, b, x)``       | ``assertNotAlmostEqual(a, b, x)`` | A503 |
 +------------------------------------------+-----------------------------------+------+
+| ``assertTrue(a, b)``                     | ``assertTrue(a, msg=b)``          | A503 |
++------------------------------------------+-----------------------------------+------+
 
 Note that some suggestions are normalized forms of the original, such as when
 a double-negative is used (``assertFalse(a != b)`` → ``assertEqual(a, b)``).
@@ -113,6 +115,7 @@ This extension adds three new `error codes`__ (using the ``A50`` prefix):
 - ``A501``: prefer *{func}* for '*{op}*' expressions
 - ``A502``: prefer *{func}* instead of comparing to *{obj}*
 - ``A503``: use *{func}* instead of the deprecated *{name}*
+- ``A504``: prefer the 'msg=' kwarg for *{func}* diagnostics
 
 .. __: https://flake8.pycqa.org/en/latest/user/error-codes.html
 

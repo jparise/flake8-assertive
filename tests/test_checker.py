@@ -173,3 +173,7 @@ class TestChecks(unittest.TestCase):
     def test_deprecated(self):
         self.check("self.assertEquals(True, a)", "A502", "assertTrue()")
         self.check("self.assertEquals(a, b)", "A503", "assertEqual()")
+
+    def test_asserttrue_misuse(self):
+        self.check("self.assertTrue(a, 'foo')", expected="A504")
+        self.check("self.assertTrue(a, msg='foo')", expected=None)

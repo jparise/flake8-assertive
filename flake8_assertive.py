@@ -83,6 +83,7 @@ class Checker(object):
     A501 = "prefer {func}() for '{op}' expressions"
     A502 = "prefer {func}() instead of comparing to {obj}"
     A503 = "use {func}() instead of the deprecated {name}()"
+    A504 = "prefer the 'msg=' kwarg for {func}() diagnostics"
 
     def __init__(self, tree, filename):
         self.tree = tree
@@ -164,6 +165,8 @@ class Checker(object):
                              op='round')
 
     def check_asserttrue(self, node):
+        if len(node.args) > 1:
+            yield self.error(node, 'A504', 'assertTrue')
         arg = next(args(node), None)
         if arg and isinstance(arg, ast.Compare) and len(arg.ops) == 1:
             op = arg.ops[0]
