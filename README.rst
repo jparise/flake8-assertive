@@ -81,6 +81,8 @@ the generic methods.
 +------------------------------------------+-----------------------------------+------+
 | ``assertTrue(a, b)``                     | ``assertTrue(a, msg=b)``          | A504 |
 +------------------------------------------+-----------------------------------+------+
+| ``assertFalse(a, b)``                    | ``assertFalse(a, msg=b)``         | A504 |
++------------------------------------------+-----------------------------------+------+
 
 Note that some suggestions are normalized forms of the original, such as when
 a double-negative is used (``assertFalse(a != b)`` → ``assertEqual(a, b)``).

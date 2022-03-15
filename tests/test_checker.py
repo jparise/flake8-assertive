@@ -177,3 +177,7 @@ class TestChecks(unittest.TestCase):
     def test_asserttrue_misuse(self):
         self.check("self.assertTrue(a, 'foo')", expected="A504")
         self.check("self.assertTrue(a, msg='foo')", expected=None)
+
+    def test_assertfalse_misuse(self):
+        self.check("self.assertFalse(a, 'foo')", expected="A504")
+        self.check("self.assertFalse(a, msg='foo')", expected=None)

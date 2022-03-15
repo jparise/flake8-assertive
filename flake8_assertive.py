@@ -201,6 +201,8 @@ class Checker(object):
                 node, 'A501', 'assertIsInstance', op='isinstance()')
 
     def check_assertfalse(self, node):
+        if len(node.args) > 1:
+            yield self.error(node, 'A504', 'assertFalse')
         arg = next(args(node), None)
         if arg and isinstance(arg, ast.Compare) and len(arg.ops) == 1:
             op = arg.ops[0]
