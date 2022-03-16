@@ -6,12 +6,6 @@ from flake8_assertive import Checker
 
 
 class TestChecks(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        # Always use Python 3's `assertRegex` method name.
-        if not hasattr(cls, 'assertRegex'):
-            cls.assertRegex = cls.assertRegexpMatches
-
     def tearDown(self):
         Checker.pattern = None
         Checker.snakecase = False
