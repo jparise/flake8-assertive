@@ -28,13 +28,8 @@ __all__ = ['Checker']
 __version__ = '2.1.0'
 
 
-# Python 3.4 introduced `ast.NameConstant` for `None`, `True`, and `False`.
-if hasattr(ast, 'NameConstant'):
-    def is_constant(node, obj):
-        return isinstance(node, ast.NameConstant) and node.value is obj
-else:
-    def is_constant(node, obj):
-        return isinstance(node, ast.Name) and node.id == str(obj)
+def is_constant(node, obj):
+    return isinstance(node, ast.NameConstant) and node.value is obj
 
 
 def is_function_call(node, name):
