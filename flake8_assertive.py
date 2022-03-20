@@ -72,7 +72,7 @@ def wrap_deprecated(func, name):
     return wrapper
 
 
-class Checker(object):
+class Checker:
     """Unittest assert method checker"""
 
     name = "assertive"
