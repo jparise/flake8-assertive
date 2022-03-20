@@ -29,4 +29,5 @@ jobs:
       run: |
         python setup.py check --restructuredtext
         flake8
+        black --check --diff .
         python setup.py test
