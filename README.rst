@@ -165,6 +165,12 @@ values of ``a`` and ``b``.
 
 Suggested by: `Serhiy Storchaka <https://twitter.com/SerhiyStorchaka>`_
 
+Alternatives
+------------
+
+- `Teyit <https://github.com/isidentical/teyit>`_ is a Python unit test formatter that
+  can perform similar assertion transformations.
+
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/flake8-assertive.svg
    :target: https://pypi.python.org/pypi/flake8-assertive
 .. |Python Versions| image:: https://img.shields.io/pypi/pyversions/flake8-assertive.svg
