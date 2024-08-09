@@ -21,13 +21,17 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+        cache: pip
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip setuptools
         pip install -r requirements.txt
-    - name: Tests
+        pip install -e .
+    - name: Lint
       run: |
         python setup.py check --restructuredtext
         flake8
         black --check --diff .
-        python setup.py test
+    - name: Tests
+      run: |
+        python -m pytest
