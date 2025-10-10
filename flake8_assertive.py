@@ -28,8 +28,11 @@ __all__ = ["Checker"]
 __version__ = "2.1.0"
 
 
+Constant = ast.Constant if hasattr(ast, "Constant") else ast.NameConstant
+
+
 def is_constant(node, obj):
-    return isinstance(node, ast.NameConstant) and node.value is obj
+    return isinstance(node, Constant) and node.value is obj
 
 
 def is_function_call(node, name):
