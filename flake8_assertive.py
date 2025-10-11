@@ -25,7 +25,7 @@ import fnmatch
 import re
 
 __all__ = ["Checker"]
-__version__ = "2.1.0"
+__version__ = "2.2.0"
 
 
 Constant = ast.Constant if hasattr(ast, "Constant") else ast.NameConstant

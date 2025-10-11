@@ -1,10 +1,10 @@
 Changes
 =======
 
-2.2.0 (not yet released)
+2.2.0 (2025-10-11)
 ------------------
 
-* Drop support for Python 3.7. Python 3.8.1 or later is now required.
+* Drop support for Python 3.7, 3.8, and 3.9. Python 3.10+ is now required.
 
 2.1.0 (2022-03-15)
 ------------------
