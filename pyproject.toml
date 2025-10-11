@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flake8-assertive"
+dynamic = ["version"]
+description = "Flake8 unittest assert method checker"
+authors = [
+    {name = "Jon Parise", email = "jon@indelible.org"},
+]
+readme = "README.rst"
+license = "MIT"
+keywords = ["flake8", "testing", "unittest", "assert"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Framework :: Flake8",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Testing :: Unit",
+]
+requires-python = ">= 3.10"
+dependencies = [
+    "flake8>=3.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff==0.14.0",
+]
+
+[project.entry-points."flake8.extension"]
+A50 = "flake8_assertive:Checker"
+
+[project.urls]
+Homepage = "https://github.com/jparise/flake8-assertive"
+Repository = "https://github.com/jparise/flake8-assertive"
+Issues = "https://github.com/jparise/flake8-assertive/issues"
+Changelog = "https://github.com/jparise/flake8-assertive/blob/main/CHANGELOG.rst"
+
+[tool.setuptools.dynamic]
+version = {attr = "flake8_assertive.__version__"}
