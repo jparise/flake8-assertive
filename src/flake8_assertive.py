@@ -25,14 +25,11 @@ import fnmatch
 import re
 
 __all__ = ["Checker"]
-__version__ = "2.2.0"
-
-
-Constant = ast.Constant if hasattr(ast, "Constant") else ast.NameConstant
+__version__ = "2.3.0"
 
 
 def is_constant(node, obj):
-    return isinstance(node, Constant) and node.value is obj
+    return isinstance(node, ast.Constant) and node.value is obj
 
 
 def is_function_call(node, name):
@@ -67,10 +64,8 @@ def wrap_deprecated(func, name):
     """
 
     def wrapper(self, node):
-        for error in func(self, node):
-            yield error
-        else:
-            yield self.error(node, "A503", func=name, name=node.func.attr)
+        yield from func(self, node)
+        yield self.error(node, "A503", func=name, name=node.func.attr)
 
     return wrapper
 
@@ -131,8 +126,7 @@ class Checker:
                 name = node.func.attr.lower().replace("_", "")
                 func = getattr(self, "check_" + name, None)
                 if func is not None:
-                    for error in func(node):
-                        yield error
+                    yield from func(node)
 
     def check_assertequal(self, node):
         if any(arg for arg in args(node) if is_constant(arg, None)):

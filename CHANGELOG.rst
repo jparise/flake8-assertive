@@ -2,6 +2,13 @@
 Changes
 =======
 
+2.3.0 (2026-10-14)
+------------------
+
+* Add support for Python 3.15.
+* Drop support for Python 3.10. Python 3.11+ is now required.
+* Drop support for flake8 versions older than 6.0.
+
 2.2.0 (2025-10-11)
 ------------------
 

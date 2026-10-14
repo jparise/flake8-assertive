@@ -18,7 +18,7 @@ class TestChecks(unittest.TestCase):
         if expected is None:
             return self.assertIsNone(error)
 
-        self.assertIsNotNone(error, "expected {0} error".format(expected))
+        self.assertIsNotNone(error, f"expected {expected} error")
         self.assertEqual(expected, error[2].split(" ")[0])
         if pattern is not None:
             self.assertRegex(error[2], re.escape(pattern))
